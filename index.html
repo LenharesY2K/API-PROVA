@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <h1>Teste de gerenciar um Banco de dados</h1>
+
+    <div class="form">
+        <input type="hidden" id="id">
+        <input type="text" id="login" placeholder="login">
+        <input type="text" id="nome" placeholder="nome">
+        <input type="email" id="email" placeholder="email">
+        <input type="password" id="password" placeholder="password">
+        <select id="active">
+            <option value="1">Active</option>
+            <option value="0">Inactive</option>
+        </select>
+        <button onclick="salvar()">Save</button>
+        <button onclick="limpar()">Cancel</button>
+
+        <div class="search">
+            <input type="text" id="pesquisa" placeholder="Pesquisar">
+            <button onclick="loadsearch()">Search</button>
+            <button onclick="load()">List All</button>
+        </div>
+
+        <table class="table" id="table">
+            <thead class="theadone">
+                <tr>
+                    <th>ID</th>
+                    <th>Login</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>Active</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        const API_URL = ""; 
+
+        async function load(pesquisa = "") {
+            let url = API_URL;
+            if (pesquisa) {
+                url += "?pesquisa=" + encodeURIComponent(pesquisa);
+            }
+
+            const resposta = await fetch(url);
+            const dados = await resposta.json();
+
+            const tbody = document.querySelector("#table tbody");
+            tbody.innerHTML = "";
+
+            dados.forEach(usuario => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${usuario.ID}</td>
+                    <td>${usuario.LOGIN}</td>
+                    <td>${usuario.NOME}</td>
+                    <td>${usuario.EMAIL}</td>
+                    <td>${usuario.PASSWORD}</td>
+                    <td>${usuario.ACTIVE == 1 ? "Yes" : "No"}</td>
+                    <td>
+                        <button onclick='edit(${JSON.stringify(usuario)})'>Edit</button>
+                        <button onclick='deletar(${usuario.ID})'>Delete</button>
+                    </td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function loadsearch() {
+            const valor = document.getElementById("pesquisa").value;
+            load(valor);
+        }
+
+        async function salvar() {
+            const id = document.getElementById("id").value;
+            const login = document.getElementById("login").value;
+            const nome = document.getElementById("nome").value;
+            const email = document.getElementById("email").value;
+            const senha = document.getElementById("password").value;
+            const ativo = document.getElementById("active").value;
+
+            const payload = { ID: id, LOGIN: login, NOME: nome, EMAIL: email, PASSWORD: senha, ACTIVE: ativo };
+
+            if (id) {
+                await fetch(API_URL, { method: "PUT", body: JSON.stringify(payload) });
+            } else {
+                await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) });
+            }
+
+            limpar();
+            load();
+        }
+
+        function edit(usuario) {
+            document.getElementById("id").value = usuario.ID;
+            document.getElementById("login").value = usuario.LOGIN;
+            document.getElementById("nome").value = usuario.NOME;
+            document.getElementById("email").value = usuario.EMAIL;
+            document.getElementById("password").value = usuario.PASSWORD;
+            document.getElementById("active").value = usuario.ACTIVE;
+        }
+
+        async function deletar(id) {
+            if (confirm("Are you sure you want to delete this user?")) {
+                await fetch(API_URL + "?id=" + id, { method: "DELETE" });
+                load();
+            }
+        }
+
+        function limpar() {
+            document.getElementById("id").value = "";
+            document.getElementById("login").value = "";
+            document.getElementById("nome").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("active").value = "";
+        }
+    </script>
+</body>
+</html>
