@@ -1,0 +1,17 @@
+-- Criar o banco de dados
+
+CREATE DATABASE IF NOT EXISTS my_database
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+USE my_database;
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    login VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    active TINYINT(1) NOT NULL DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
