@@ -1,4 +1,3 @@
--- Criar o banco de dados
 
 CREATE DATABASE IF NOT EXISTS my_database
 CHARACTER SET utf8mb4

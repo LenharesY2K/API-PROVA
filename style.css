@@ -29,7 +29,6 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        /* Section Layout */
         section {
             max-width: 1200px;
             margin: 0 auto;
@@ -109,7 +108,6 @@
             transform: translateY(-2px);
         }
 
-        /* Search Section */
         .search {
             grid-column: 1 / -1;
             display: flex;
@@ -150,7 +148,6 @@
             transform: translateY(-2px);
         }
 
-        /* Table Container */
         .container {
             background: white;
             border-radius: 15px;
@@ -164,7 +161,6 @@
             overflow-x: auto;
         }
 
-        /* Table Styles */
         .table {
             width: 100%;
             border-collapse: collapse;
@@ -216,7 +212,6 @@
             border-right: none;
         }
 
-        /* Action Buttons */
         .table button {
             border: none;
             padding: 8px 12px;
@@ -252,7 +247,6 @@
             box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
         }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
             body {
                 padding: 10px 0;
@@ -368,7 +362,6 @@
             }
         }
 
-        /* Loading and Empty States */
         .loading {
             text-align: center;
             padding: 40px;
